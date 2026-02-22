@@ -4,6 +4,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "myrunnable.h"
+#include "constants.h"
 
 //-------------------------------------------------------------------
 //
@@ -34,6 +35,7 @@ MainWindow::~MainWindow()
 //
 void MainWindow::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event)
     QPainter painter(this);
     for (const MyPoint &point : vPoints_)
     {
@@ -58,7 +60,7 @@ void MainWindow::createWorkers()
 
     qRegisterMetaType<MyPoint>("MyPoint");     // зарегистрируем MyPoint тип
 
-    for (int i = 0; i < QThread::idealThreadCount(); ++i)
+    for (int i = 0; i < wk::THREADSCOUNT; ++i)
     {
         Worker *worker = new Worker(&x_, wk::YSTART + i *30, Qt::GlobalColor(Qt::red + i % (Qt::transparent - Qt::red)),
                                     this, wk::COUNT);
@@ -76,6 +78,7 @@ void MainWindow::deleteWorkers()
          if (worker)
          {
              delete worker;
+             worker = nullptr;
          }
      }
      vWorkers_.clear();
@@ -85,13 +88,14 @@ void MainWindow::deleteWorkers()
 //
 void MainWindow::createmenu()
 {
-    this->setMinimumSize(QSize(wk::COUNT * QThread::idealThreadCount() + 20, 100 + (QThread::idealThreadCount() + 1) * 30 + ui->threadsCount->height() * 2));
+    this->setMinimumSize(QSize(wk::COUNT * wk::THREADSCOUNT + 20, 100 + (wk::THREADSCOUNT + 1) * 30 + ui->threadsCount->height() * 2));
+
     menu_ = menuBar()->addMenu("Commands");
     menu_->addAction(concurrent_);
     menu_->addAction(runnable_);
     menu_->addAction(clear_);
 
-    ui->threadsCount->setText("Ideal Thread Count: " + QString::number(QThread::idealThreadCount()));
+    ui->threadsCount->setText("Ideal Thread Count: " + QString::number(wk::THREADSCOUNT));
 }
 
 //-------------------------------------------------------------------

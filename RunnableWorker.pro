@@ -34,7 +34,8 @@ HEADERS += \
         mainwindow.h \
     mypoint.h \
     worker.h \
-    myrunnable.h
+    myrunnable.h \
+    constants.h
 
 FORMS += \
         mainwindow.ui

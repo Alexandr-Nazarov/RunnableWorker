@@ -5,11 +5,6 @@
 #include <QColor>
 #include "mypoint.h"
 
-namespace wk {
-    extern const int YSTART;  //координата y с которой начнут строиться графики
-    extern int COUNT;         // количество цикло
-}
-
 /**
  * @brief Класс, выполняющий работу по формированию текущих координат точки
  */

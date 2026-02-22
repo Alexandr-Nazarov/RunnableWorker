@@ -1,11 +1,7 @@
 #include <QDebug>
 #include <QThread>
 #include "worker.h"
-
-#define TIMEOUT 1000000000
-
-int wk::COUNT = 40;
-int const wk::YSTART = 100;
+#include "constants.h"
 
 //-------------------------------------------------------------------
 //
@@ -28,7 +24,7 @@ void Worker::doWork()
         MyPoint point(QPoint(*x_, y_), color_);
         emit signalAddPoint(point);
         ++(*x_);
-        for (long long j = 0; j < TIMEOUT; ++j)  //имитация работы, чтобы поток не исключался из планирования (если делать sleep())
+        for (long long j = 0; j < wk::TIMEOUT; ++j)  //имитация работы, чтобы поток не исключался из планирования (если делать sleep())
         {
             int tmp;
             tmp++;
